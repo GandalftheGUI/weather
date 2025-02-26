@@ -1,0 +1,17 @@
+<h1>Weather Forecast</h1>
+<form action="<%= weather_search_path %>" method="get">
+  <input type="text" name="city" placeholder="Enter city name" required>
+  <button type="submit">Search</button>
+</form>
+
+<% if @weather %>
+  <% if @weather["error"] %>
+    <p style="color: red;"><%= @weather["error"] %></p>
+  <% elsif @weather["cod"] != 200 %>
+    <p style="color: red;">Error: <%= @weather["message"] %></p>
+  <% else %>
+    <h2>Weather in <%= @weather["name"] %>, <%= @weather["sys"]["country"] %></h2>
+    <p>Temperature: <%= @weather["main"]["temp"] %>°C</p>
+    <p>Condition: <%= @weather["weather"][0]["description"].capitalize %></p>
+  <% end %>
+<% end %>
