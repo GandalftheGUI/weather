@@ -37,7 +37,7 @@ Ensure you have the following installed:
 
 5. Run the server:
    ```bash
-   rails server
+   bin/dev
    ```
    Access the app at `http://localhost:3000`.
 
