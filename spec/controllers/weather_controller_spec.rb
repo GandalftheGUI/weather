@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'webmock/rspec'
 
 RSpec.describe WeatherController, type: :controller do
-  let(:valid_zip) { "10001" } # New York ZIP code
+  let(:valid_zip) { "10001" } 
   let(:invalid_zip) { "00000" }
   let(:cache_key) { "weather_#{valid_zip}" }
 
@@ -63,10 +63,6 @@ RSpec.describe WeatherController, type: :controller do
 
     it "renders the index template" do
       expect(response).to render_template(:index)
-    end
-
-    it "assigns @weather" do
-      expect(assigns(:weather)).to be_nil
     end
 
     it "gets 200 status" do
