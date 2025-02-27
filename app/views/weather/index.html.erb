@@ -11,16 +11,20 @@
     <p>Error: <%= @weather["error"] %></p>
   <% else %>
     <h2>Weather for <%= @weather["location"] %></h2>
-    <p>Source: <%= @weather["source"] %></p>
+    <ul>
+      <li>Source: <%= @weather["source"] %></li>
+    </ul>
 
     <h3>Current Weather</h3>
-    <p>Temperature: <%= @weather["current"]["temperature"] %>°C</p>
-    <p>High: <%= @weather["current"]["temp_max"] %>°C</p>
-    <p>Low: <%= @weather["current"]["temp_min"] %>°C</p>
-    <p>Conditions: <%= @weather["current"]["conditions"] %></p>
-    <p>Humidity: <%= @weather["current"]["humidity"] %>%</p>
-    <p>Wind Speed: <%= @weather["current"]["wind_speed"] %> m/s</p>
-
+    <ul>
+      <li>Temperature: <%= @weather["current"]["temperature"] %>°C</li>
+      <li>High: <%= @weather["current"]["temp_max"] %>°C</li>
+      <li>Low: <%= @weather["current"]["temp_min"] %>°C</li>
+      <li>Conditions: <%= @weather["current"]["conditions"] %></li>
+      <li>Humidity: <%= @weather["current"]["humidity"] %>%</li>
+      <li>Wind Speed: <%= @weather["current"]["wind_speed"] %> m/s</li>
+    </ul>
+    
     <h3>5-Day Forecast</h3>
     <ul>
       <% @weather["forecast"].each do |day| %>
