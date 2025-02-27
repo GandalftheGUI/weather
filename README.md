@@ -6,7 +6,7 @@
 The Weather App is a Ruby on Rails application that fetches weather data based on a ZIP code. It utilizes caching to store results and optimize API calls, ensuring faster responses for repeated requests.
 
 ## Features
-- Fetches weather data using an external API.
+- Fetches weather data using an external API (https://openweathermap.org/)
 - Caches responses to reduce redundant API calls.
 - Implements RSpec tests for validation.
 
@@ -28,14 +28,16 @@ Ensure you have the following installed:
    bundle install
    ```
 
-3. Set up the environment variables:
-   Create a `.env` file in the root directory and add your API key:
+3. Sign up for a free account at https://openweathermap.org/ and find your API key.
+
+4. Set up the environment variables:
+   Create a `.env` file in the root directory and add your API key from the previous step:
    ```env
-   WEATHER_API_KEY=your_api_key_here
+   OPENWEATHER_API_KEY=your_api_key_here
    ```
    You may need to use `dotenv` gem to load environment variables.
 
-4. Run the server:
+5. Run the server:
    ```bash
    rails server
    ```
