@@ -1,39 +1,52 @@
-<h1>Weather Search</h1>
 
-<%= form_with url: weather_search_path, method: :get do %>
-  <%= label_tag :zip, "Enter ZIP Code:" %>
-  <%= text_field_tag :zip, nil, required: true %>
-  <%= submit_tag "Get Weather" %>
-<% end %>
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+  <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Weather Search</h1>
 
-<% if @weather.present? %>
-  <% if @weather["error"] %>
-    <p>Error: <%= @weather["error"] %></p>
-  <% else %>
-    <h2>Weather for <%= @weather["location"] %></h2>
-    <ul>
-      <li>Source: <%= @weather["source"] %></li>
-    </ul>
+  <%= form_with url: weather_search_path, method: :get, html: { class: "space-y-4" } do %>
+    <div class="flex flex-col">
+      <%= label_tag :zip, "Enter ZIP Code:", class: "font-medium text-gray-700" %>
+      <%= text_field_tag :zip, nil, required: true, class: "mt-1 p-2 border rounded-lg w-full focus:ring focus:ring-blue-300" %>
+    </div>
 
-    <h3>Current Weather</h3>
-    <ul>
-      <li>Temperature: <%= @weather["current"]["temperature"] %>°C</li>
-      <li>High: <%= @weather["current"]["temp_max"] %>°C</li>
-      <li>Low: <%= @weather["current"]["temp_min"] %>°C</li>
-      <li>Conditions: <%= @weather["current"]["conditions"] %></li>
-      <li>Humidity: <%= @weather["current"]["humidity"] %>%</li>
-      <li>Wind Speed: <%= @weather["current"]["wind_speed"] %> m/s</li>
-    </ul>
-    
-    <h3>5-Day Forecast</h3>
-    <ul>
-      <% @weather["forecast"].each do |day| %>
-        <li>
-          <strong><%= day[:date] %></strong>: 
-          High: <%= day[:high] %>°C, 
-          Low: <%= day[:low] %>°C
-        </li>
-      <% end %>
-    </ul>
+    <div class="flex justify-center">
+      <%= submit_tag "Get Weather", class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full" %>
+    </div>
   <% end %>
-<% end %>
+
+  <% if @weather %>
+    <% if @weather["error"] %>
+      <div class="text-red-600 font-semibold text-center pt-2">
+        <%= @weather["error"] %>
+      </div>
+    <% else %>
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-4 mt-4">
+        Weather for <%= @weather["location"] %>
+      </h1>
+
+      <!-- Current Weather -->
+      <div class="p-4 bg-blue-100 rounded-lg mb-6">
+        <h2 class="text-xl font-semibold text-blue-800">Current Weather</h2>
+        <p class="text-gray-700"><strong>Temperature:</strong> <%= @weather["current"]["temperature"] %>°C</p>
+        <p class="text-gray-700"><strong>Conditions:</strong> <%= @weather["current"]["conditions"].capitalize %></p>
+        <p class="text-gray-700"><strong>Humidity:</strong> <%= @weather["current"]["humidity"] %>%</p>
+        <p class="text-gray-700"><strong>Wind Speed:</strong> <%= @weather["current"]["wind_speed"] %> m/s</p>
+      </div>
+
+      <!-- Forecast -->
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">5-Day Forecast</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% @weather["forecast"].each do |day| %>
+          <div class="p-4 bg-gray-100 rounded-lg">
+            <p class="text-gray-700 font-semibold"><%= day[:date] %></p>
+            <p class="text-gray-700">🌡 High: <%= day[:high] %>°C | Low: <%= day[:low] %>°C</p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Data Source -->
+      <p class="mt-4 text-sm text-gray-500 text-center">
+        Data source: <%= @weather["source"] %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
