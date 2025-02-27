@@ -22,7 +22,7 @@ RSpec.describe WeatherController, type: :controller do
   let(:current_weather_data) do
     {
       "cod" => 200,
-      "main" => { "temp" => 15, "humidity" => 60 },
+      "main" => { "temp" => 15, "humidity" => 60, "temp_min" => 10, "temp_max" => 20 },
       "weather" => [{ "description" => "Clear sky" }],
       "wind" => { "speed" => 5 }
     }
@@ -33,6 +33,8 @@ RSpec.describe WeatherController, type: :controller do
       "location" => "New York",
       "current" => {
         "temperature" => 15,
+        "temp_max" => 20,
+        "temp_min" => 10,
         "conditions" => "Clear sky",
         "humidity" => 60,
         "wind_speed" => 5
@@ -96,7 +98,7 @@ RSpec.describe WeatherController, type: :controller do
 
         get :search, params: { zip: valid_zip }
 
-        expect(assigns(:weather)).to eq(expected_weather_response.merge("source" => "cache"))
+        expect(assigns(:weather)).to eq(expected_weather_response.merge("source" => "Cache"))
       end
     end
 

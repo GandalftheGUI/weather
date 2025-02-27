@@ -20,7 +20,7 @@ class WeatherController < ApplicationController
     cache_key = "weather_#{zip_code}"
     cached_data = Rails.cache.read(cache_key)
 
-    return cached_data.merge({ "source" => "cache" }) if cached_data
+    return cached_data.merge({ "source" => "Cache" }) if cached_data
 
     weather_data = get_weather_from_api(zip_code)
     current_weather = get_current_weather(zip_code)
