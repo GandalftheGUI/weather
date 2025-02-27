@@ -17,7 +17,7 @@ Ensure you have the following installed:
 ## Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/weather-app.git
+   git clone https://github.com/GandalftheGUI/weather.git
    cd weather-app
    ```
 
