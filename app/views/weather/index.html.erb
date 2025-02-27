@@ -27,6 +27,8 @@
       <div class="p-4 bg-blue-100 rounded-lg mb-6">
         <h2 class="text-xl font-semibold text-blue-800">Current Weather</h2>
         <p class="text-gray-700"><strong>Temperature:</strong> <%= @weather["current"]["temperature"] %>°C</p>
+        <p class="text-gray-700"><strong>High:</strong> <%= @weather["current"]["temp_max"] %>°C</p>
+        <p class="text-gray-700"><strong>Low:</strong> <%= @weather["current"]["temp_min"] %>°C</p>
         <p class="text-gray-700"><strong>Conditions:</strong> <%= @weather["current"]["conditions"].capitalize %></p>
         <p class="text-gray-700"><strong>Humidity:</strong> <%= @weather["current"]["humidity"] %>%</p>
         <p class="text-gray-700"><strong>Wind Speed:</strong> <%= @weather["current"]["wind_speed"] %> m/s</p>
