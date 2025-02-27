@@ -25,6 +25,13 @@ RSpec.describe WeatherController, type: :controller do
       .to_return(status: 404, body: { "cod" => 404, "message" => "city not found" }.to_json, headers: {})
   end
 
+  describe "GET #index" do 
+    it "renders the index template" do
+      get :index
+      expect(response).to render_template(:index)
+    end
+  end
+
   describe "GET #search" do
     context "when given a valid ZIP code" do
       it "returns weather data and caches it" do
