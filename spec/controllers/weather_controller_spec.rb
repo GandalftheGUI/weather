@@ -30,6 +30,11 @@ RSpec.describe WeatherController, type: :controller do
       get :index
       expect(response).to render_template(:index)
     end
+
+    it "returns a successful response" do
+      get :index
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe "GET #search" do
