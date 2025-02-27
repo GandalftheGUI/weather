@@ -27,10 +27,13 @@ class WeatherController < ApplicationController
 
     if weather_data["cod"] == "200" && current_weather["cod"] == 200
       forecast = parse_forecast(weather_data)
+
       weather_info = {
         "location" => weather_data["city"]["name"],
         "current" => {
           "temperature" => current_weather["main"]["temp"],
+          "temp_min" =>  current_weather["main"]["temp_min"],
+          "temp_max" => current_weather["main"]["temp_max"],
           "conditions" => current_weather["weather"][0]["description"],
           "humidity" => current_weather["main"]["humidity"],
           "wind_speed" => current_weather["wind"]["speed"]

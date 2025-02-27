@@ -15,6 +15,8 @@
 
     <h3>Current Weather</h3>
     <p>Temperature: <%= @weather["current"]["temperature"] %>°C</p>
+    <p>High: <%= @weather["current"]["temp_max"] %>°C</p>
+    <p>Low: <%= @weather["current"]["temp_min"] %>°C</p>
     <p>Conditions: <%= @weather["current"]["conditions"] %></p>
     <p>Humidity: <%= @weather["current"]["humidity"] %>%</p>
     <p>Wind Speed: <%= @weather["current"]["wind_speed"] %> m/s</p>
