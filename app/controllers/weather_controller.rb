@@ -1,40 +1,76 @@
-require 'net/http'
-require 'json'
-
 class WeatherController < ApplicationController
-  def index
-  end
+  require 'net/http'
+  require 'json'
 
   def search
-    zip = params[:zip]
+    zip_code = params[:zip]
 
-    if zip.present?
-      cache_key = "weather_zip_#{zip}"
-      cached_data = Rails.cache.read(cache_key)
-
-      if cached_data
-        @weather = cached_data.merge("source" => "cache")
-      else
-        @weather = fetch_weather_by_zip(zip)
-        Rails.cache.write(cache_key, @weather, expires_in: 30.minutes)
-        @weather["source"] = "API"
-      end
-    else
-      @weather = { error: "Please enter a ZIP code." }
+    if zip_code.blank?
+      render json: { error: "ZIP code is required" }, status: :bad_request
+      return
     end
 
+    @weather = fetch_weather_by_zip(zip_code)
     render :index
   end
 
   private
 
-  # Fetch weather using ZIP code
-  def fetch_weather_by_zip(zip)
-    api_key = ENV['OPENWEATHER_API_KEY']
-    country = "US" # Default to US; modify if needed
-    url = URI("https://api.openweathermap.org/data/2.5/weather?zip=#{zip},#{country}&appid=#{api_key}&units=metric")
+  def fetch_weather_by_zip(zip_code)
+    cache_key = "weather_#{zip_code}"
+    cached_data = Rails.cache.read(cache_key)
 
+    return cached_data.merge({ "source" => "cache" }) if cached_data
+
+    weather_data = get_weather_from_api(zip_code)
+    current_weather = get_current_weather(zip_code)
+
+    if weather_data["cod"] == "200" && current_weather["cod"] == 200
+      forecast = parse_forecast(weather_data)
+      weather_info = {
+        "location" => weather_data["city"]["name"],
+        "current" => {
+          "temperature" => current_weather["main"]["temp"],
+          "conditions" => current_weather["weather"][0]["description"],
+          "humidity" => current_weather["main"]["humidity"],
+          "wind_speed" => current_weather["wind"]["speed"]
+        },
+        "forecast" => forecast
+      }
+      
+      Rails.cache.write(cache_key, weather_info, expires_in: 30.minutes)
+      weather_info.merge({ "source" => "API" })
+    else
+      { "error" => "Invalid ZIP code or data unavailable" }
+    end
+  end
+
+  def get_weather_from_api(zip_code)
+    url = URI("https://api.openweathermap.org/data/2.5/forecast?zip=#{zip_code},US&appid=#{ENV['OPENWEATHER_API_KEY']}&units=metric")
     response = Net::HTTP.get(url)
-    JSON.parse(response) rescue { error: "Invalid ZIP code or no data available." }
+    JSON.parse(response)
+  rescue StandardError => e
+    Rails.logger.error "Weather API Error: #{e.message}"
+    { "error" => "Failed to fetch forecast data" }
+  end
+
+  def get_current_weather(zip_code)
+    url = URI("https://api.openweathermap.org/data/2.5/weather?zip=#{zip_code},US&appid=#{ENV['OPENWEATHER_API_KEY']}&units=metric")
+    response = Net::HTTP.get(url)
+    JSON.parse(response)
+  rescue StandardError => e
+    Rails.logger.error "Current Weather API Error: #{e.message}"
+    { "error" => "Failed to fetch current weather data" }
+  end
+
+  def parse_forecast(weather_data)
+    daily_temps = weather_data["list"].group_by { |entry| entry["dt_txt"].split(" ")[0] }
+
+    forecast = daily_temps.map do |date, entries|
+      temps = entries.map { |e| e["main"]["temp"] }
+      { date: date, high: temps.max, low: temps.min }
+    end
+
+    forecast
   end
 end
