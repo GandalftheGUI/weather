@@ -1,24 +1,54 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Weather App
 
-Things you may want to cover:
+## Overview
+The Weather App is a Ruby on Rails application that fetches weather data based on a ZIP code. It utilizes caching to store results and optimize API calls, ensuring faster responses for repeated requests.
 
-* Ruby version
+## Features
+- Fetches weather data using an external API.
+- Caches responses to reduce redundant API calls.
+- Implements RSpec tests for validation.
 
-* System dependencies
+## Prerequisites
+Ensure you have the following installed:
+- Ruby 3.2.2
+- Rails 7.x
+- Bundler
 
-* Configuration
+## Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/weather-app.git
+   cd weather-app
+   ```
 
-* Database creation
+2. Install dependencies:
+   ```bash
+   bundle install
+   ```
 
-* Database initialization
+3. Set up the environment variables:
+   Create a `.env` file in the root directory and add your API key:
+   ```env
+   WEATHER_API_KEY=your_api_key_here
+   ```
+   You may need to use `dotenv` gem to load environment variables.
 
-* How to run the test suite
+4. Run the server:
+   ```bash
+   rails server
+   ```
+   Access the app at `http://localhost:3000`.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Running Tests
+To run RSpec tests, use:
+```bash
+rspec
+```
 
-* Deployment instructions
+## Deployment
+To deploy the application, ensure your environment variables are correctly set in the production environment, and follow standard Rails deployment procedures.
 
-* ...
+
+
