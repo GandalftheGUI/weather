@@ -47,8 +47,3 @@ To run RSpec tests, use:
 rspec
 ```
 
-## Deployment
-To deploy the application, ensure your environment variables are correctly set in the production environment, and follow standard Rails deployment procedures.
-
-
-
