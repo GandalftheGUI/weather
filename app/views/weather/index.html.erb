@@ -1,6 +1,6 @@
 <h1>Weather Forecast</h1>
 <form action="<%= weather_search_path %>" method="get">
-  <input type="text" name="city" placeholder="Enter city name" required>
+  <input type="text" name="zip" placeholder="Enter ZIP Code" required>
   <button type="submit">Search</button>
 </form>
 
@@ -13,5 +13,7 @@
     <h2>Weather in <%= @weather["name"] %>, <%= @weather["sys"]["country"] %></h2>
     <p>Temperature: <%= @weather["main"]["temp"] %>°C</p>
     <p>Condition: <%= @weather["weather"][0]["description"].capitalize %></p>
+    
+    <p><strong>Data Source:</strong> <%= @weather["source"] == "cache" ? "Cached" : "Live API" %></p>
   <% end %>
 <% end %>
