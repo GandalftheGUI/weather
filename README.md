@@ -1,5 +1,3 @@
-# README
-
 # Weather App
 
 ## Overview
